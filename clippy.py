@@ -5,6 +5,12 @@ from tkinter import filedialog, ttk
 # Create the main window first
 root_window = tk.Tk()
 root_window.title("Clippy App")
+root_window.geometry("600x400")  # Set a default size so inputs are visible
+
+# Configure grid columns for the root window for proper expansion
+root_window.grid_columnconfigure(0, weight=1)
+root_window.grid_columnconfigure(1, weight=1)
+root_window.grid_columnconfigure(2, weight=1)
 
 # Global variable to store selected files in File Mode
 selected_files = []
@@ -196,34 +202,38 @@ file_radio.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
 # --- Directory Mode Frame (default) ---
 frame_directory = tk.Frame(root_window)
-frame_directory.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+frame_directory.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
+# Configure grid column for proper expansion inside the directory frame
+frame_directory.grid_columnconfigure(1, weight=1)
 
 tk.Label(frame_directory, text="Data Path:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
 directory_entry = tk.Entry(frame_directory, width=50)
-directory_entry.grid(row=0, column=1, padx=5, pady=5)
+directory_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 browse_button = tk.Button(frame_directory, text="Browse", command=browse_directory)
 browse_button.grid(row=0, column=2, padx=5, pady=5)
 
 tk.Label(frame_directory, text="File Extension:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
 ext_options = [".HTML", ".PHP", ".css", ".tsx", ".js", ".py", ".dart"]
 ext_combobox = ttk.Combobox(frame_directory, values=ext_options, state="readonly")
-ext_combobox.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+ext_combobox.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
 ext_combobox.bind("<<ComboboxSelected>>", lambda event: update_button_state())
 directory_entry.bind("<KeyRelease>", lambda event: update_button_state())
 
 # New Button for copying folder tree (only in directory mode)
 copy_tree_button = tk.Button(frame_directory, text="Copy Folder Tree", state=tk.DISABLED, command=copy_folder_tree_to_clipboard)
-copy_tree_button.grid(row=2, column=1, padx=5, pady=5)
+copy_tree_button.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
 # --- File Mode Frame ---
 frame_file = tk.Frame(root_window)
-frame_file.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+frame_file.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 # Hide the file mode frame by default
 frame_file.grid_remove()
+# Configure grid column for proper expansion inside the file frame
+frame_file.grid_columnconfigure(1, weight=1)
 
 tk.Label(frame_file, text="Selected Files:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
 file_entry = tk.Entry(frame_file, width=50, state="readonly")
-file_entry.grid(row=0, column=1, padx=5, pady=5)
+file_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 browse_files_button = tk.Button(frame_file, text="Browse Files", command=browse_files)
 browse_files_button.grid(row=0, column=2, padx=5, pady=5)
 
