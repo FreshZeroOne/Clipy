@@ -1,4 +1,5 @@
 import os
+import platform
 import tkinter as tk
 from tkinter import filedialog, ttk
 
@@ -6,6 +7,11 @@ from tkinter import filedialog, ttk
 root_window = tk.Tk()
 root_window.title("Clippy App")
 root_window.geometry("600x400")  # Set a default size so inputs are visible
+
+# On macOS, force a non-system ttk theme to ensure inputs are rendered properly.
+if platform.system() == "Darwin":
+    style = ttk.Style()
+    style.theme_use("clam")
 
 # Configure grid columns for the root window for proper expansion
 root_window.grid_columnconfigure(0, weight=1)
